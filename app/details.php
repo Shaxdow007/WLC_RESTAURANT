@@ -26,6 +26,18 @@ $image = "data:" . $restaurant["Type_Photo"] . ";base64," . base64_encode($resta
     -webkit-backdrop-filter: blur(5px);
   }
   </style>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+  #map {
+    border-radius: 20px;
+    height: 100vh;
+  }
+
+  .info {
+    width: 200px;
+  }
+  </style>
 </head>
 
 <body>
@@ -36,9 +48,14 @@ $image = "data:" . $restaurant["Type_Photo"] . ";base64," . base64_encode($resta
     <h5 class="fs-6"><?= $restaurant["Nom_Res"] ?> <span class="paragraphe">à <?= $restaurant["Ville"] ?>,
         <?= $restaurant["Cartier"] ?></span>
     </h5>
-    <div class="d-flex my-4">
+    <div class="d-flex align-items-start gap-3 my-4">
       <img src="<?= $image ?>" class="img-fluid rounded" alt="<?= $restaurant["Nom_Res"] ?>">
       <!-- maps -->
+      <!-- map -->
+      <div id="map" class="col-6 ">
+        <a href="https://www.maptiler.com"><img src="https://api.maptiler.com/resources/logo.svg"
+            alt="MapTiler logo" /></a>
+      </div>
     </div>
     <div class="w-50">
       <span class="py-1 px-4 bg-info rounded text-light fw-light fs-6">plus de détails :</span>
@@ -50,7 +67,32 @@ $image = "data:" . $restaurant["Type_Photo"] . ";base64," . base64_encode($resta
       </ul>
     </div>
   </div>
+  <!-- script js -->
+  <script>
+  const map = L.map("map").setView([<?php echo $restaurant['C_Latitude']; ?>,
+    <?php echo $restaurant['C_Longitude']; ?>
+  ], 16); //starting position
+  var marker = L.marker([<?php echo $restaurant['C_Latitude']; ?>, <?php echo $restaurant['C_Longitude']; ?>])
+    .addTo(map);
 
+  var marker<?php echo $restaurant['IdRes']; ?> = L.marker([<?php echo $restaurant['C_Latitude']; ?>,
+    <?php echo $restaurant['C_Longitude']; ?>
+  ]).addTo(map);
+  marker<?php echo $restaurant['IdRes']; ?>.bindPopup(
+    '<?php echo "<div class=" . "info" . "><h3 class=" . "fs-5" . ">" . $restaurant['Nom_Res'] . "</h3><p>" . $restaurant['Ville'] . "</p><p class=\"header\">" . $restaurant['Specialites'] . "</p></div>"; ?>'
+  );
+
+  L.tileLayer(
+    "https://api.maptiler.com/maps/topo-v2/256/{z}/{x}/{y}.png?key=IAKoattdnMh2FDr00Ydx", {
+      //style URL
+      tileSize: 512,
+      zoomOffset: -1,
+      minZoom: 1,
+      attribution: '<?php echo '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'; ?>',
+      crossOrigin: true,
+    }
+  ).addTo(map);
+  </script>
 </body>
 
 </html>
