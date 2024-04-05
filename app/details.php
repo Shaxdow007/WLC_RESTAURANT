@@ -49,8 +49,9 @@ $image = "data:" . $restaurant["Type_Photo"] . ";base64," . base64_encode($resta
         <?= $restaurant["Cartier"] ?></span>
     </h5>
     <div class="d-flex align-items-start gap-3 my-4">
-      <img src="<?= $image ?>" class="img-fluid rounded" alt="<?= $restaurant["Nom_Res"] ?>">
-      <!-- maps -->
+      <div>
+        <img src="<?= $image ?>" class="img-fluid rounded" alt="<?= $restaurant["Nom_Res"] ?>">
+      </div>
       <!-- map -->
       <div id="map" class="col-6 ">
         <a href="https://www.maptiler.com"><img src="https://api.maptiler.com/resources/logo.svg"
