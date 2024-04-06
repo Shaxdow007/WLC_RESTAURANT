@@ -11,9 +11,23 @@ if (isset($_GET['ville'])) {
 if (isset($_POST['Ville'])) {
   $ville = $_POST["Ville"];
 }
-$sql = $db->prepare("SELECT * FROM restaurant WHERE Ville LIKE '%$ville%'");
+$sql = $db->prepare("SELECT * FROM restaurant");
 $sql->execute([]);
 $restaurants = $sql->fetchAll();
+$sql = $db->prepare("SELECT DISTINCT Ville FROM restaurant  ");
+$sql->execute([]);
+$Villes = $sql->fetchAll();
+// Touts Specialites de ville
+$sql = $db->prepare("SELECT DISTINCT Specialites FROM restaurant WHERE Ville = ?");
+$sql->execute([$ville]);
+$Specialites = $sql->fetchAll();
+if (isset($_POST["Ville"])) {
+  extract($_POST);
+  // Les reatau par Ville et Specialite
+  $sql = $db->prepare("SELECT * FROM restaurant WHERE Ville = ? AND Specialites =? ");
+  $sql->execute([$Ville, $Specialite]);
+  $restaurants = $sql->fetchAll();
+}
 ?>
 
 
@@ -27,7 +41,10 @@ $restaurants = $sql->fetchAll();
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/bootstrap.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.min.css"
+    integrity="sha512-wCrId7bUEl7j1H60Jcn4imkkiIYRcoyq5Gcu3bpKAZYBJXHVMmkL4rhtyhelxSFuPMIoQjiVsanrHxcs2euu/w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
   <style>
   #map {
     border-radius: 20px;
@@ -37,6 +54,12 @@ $restaurants = $sql->fetchAll();
   .info {
     width: 200px;
   }
+
+  .selectize-control.single .selectize-input.input-active,
+  .selectize-input {
+    width: 400px;
+    padding: 10px 20px;
+  }
   </style>
 </head>
 
@@ -44,26 +67,43 @@ $restaurants = $sql->fetchAll();
   <nav class="navbar bg-body-tertiary">
     <div class="container-fluid">
       <div class="d-flex gap-5">
-        <form action="restos.php" method="post" role="search">
+        <form action="" method="post" class="d-flex gap-5" role="search">
           <div class="row g-3 align-items-center">
             <div class="col-auto">
               <label for="quoi" class="col-form-label">Quoi ?</label>
             </div>
             <div class="col-auto">
-              <input type="search" id="quoi" class="form-control" placeholder="Spécialité">
+              <select class="country" id="country" name="Specialite">
+                <?php foreach ($Specialites as $Specialite) {
+                  if ($_POST['Specialite'] == $Specialite['Specialites']) { ?>
+                <option value="<?= $Specialite['Specialites'] ?>" selected><?= $Specialite['Specialites'] ?></option>
+                <?php } else { ?>
+                <option value="<?= $Specialite['Specialites'] ?>"><?= $Specialite['Specialites'] ?></option>
+
+                <?php }
+                } ?>
+              </select>
             </div>
           </div>
-        </form>
-        <form action="restos.php" method="post">
           <!-- box 2 -->
           <div class="row g-3 align-items-center">
             <div class="col-auto">
               <label for="ou" class="col-form-label">Où ?</label>
             </div>
             <div class="col-auto">
-              <input type="search" id="ou" class="form-control" placeholder="Ville" name="Ville" value="<?= $ville ?>">
+              <select class="country" id="country" name="Ville">
+                <?php foreach ($Villes as $Ville) {
+                  if ($_GET["ville"] == $Ville) {
+                ?>
+                <option value="<?= $_GET['ville'] ?>" selected><?= $_GET['ville'] ?></option>
+                <?php } else { ?>
+                <option value="<?= $_GET['ville'] ?>"><?= $_GET['ville'] ?></option>
+                <?php }
+                } ?>
+              </select>
             </div>
           </div>
+          <button class="btn btn-primary" type="submit">chercher</button>
         </form>
       </div>
     </div>
@@ -101,6 +141,7 @@ $restaurants = $sql->fetchAll();
                       <?= $restaurant['Nom_Res'] ?>
                     </h5>
                     <p class=" card-text"><?= $restaurant['Cartier'] ?></p>
+                    <p class=" card-text"><?= $restaurant['Specialites'] ?></p>
                     <p class="header"><?= $restaurant['Ville'] ?></p>
                     <a href="./details.php?id=<?= $restaurant['IdRes'] ?>" class="stretched-link"></a>
                   </div>
@@ -124,8 +165,18 @@ $restaurants = $sql->fetchAll();
 
   </div>
   </div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
+    integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src=" ../js/script.js"></script>
   <script>
+  // select search
+  $(function() {
+    $(".country").selectize();
+  });
+  // map js :
   const map = L.map("map").setView([<?php echo $restaurants[0]['C_Latitude']; ?>,
     <?php echo $restaurants[0]['C_Longitude']; ?>
   ], 10); //starting position
@@ -137,7 +188,7 @@ $restaurants = $sql->fetchAll();
     <?php echo $res['C_Longitude']; ?>
   ]).addTo(map);
   marker<?php echo $res['IdRes']; ?>.bindPopup(
-    '<?php echo "<div class=" . "info" . "><h3 class=" . "fs-5" . ">" . $res['Nom_Res'] . "</h3><p>" . $res['Ville'] . "</p><p class=\"header\">" . $res['Specialites'] . "</p></div>"; ?>'
+    '<?php echo "<div class=" . "info" . "><h3 class=" . "fs-5" . ">" . $res['Nom_Res'] . "</h3><p>" . $res['Ville'] . "</p><p>" . $res['Specialites']  . "</p> <p class=\"header\">" . $res['Cartier']  . "</p></div>"; ?>'
   );
   <?php endforeach; ?>
 

@@ -80,7 +80,7 @@ $image = "data:" . $restaurant["Type_Photo"] . ";base64," . base64_encode($resta
     <?php echo $restaurant['C_Longitude']; ?>
   ]).addTo(map);
   marker<?php echo $restaurant['IdRes']; ?>.bindPopup(
-    '<?php echo "<div class=" . "info" . "><h3 class=" . "fs-5" . ">" . $restaurant['Nom_Res'] . "</h3><p>" . $restaurant['Ville'] . "</p><p class=\"header\">" . $restaurant['Specialites'] . "</p></div>"; ?>'
+    '<?php echo "<div class=" . "info" . "><h3 class=" . "fs-5" . ">" . $restaurant['Nom_Res'] . "</h3><p>" . $restaurant['Ville'] . "</p><p>" . $restaurant['Specialites'] . "</p><p class=\"header\">" . $restaurant['Cartier']  ."</p></div>"; ?>'
   );
 
   L.tileLayer(
