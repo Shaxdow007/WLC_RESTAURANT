@@ -37,6 +37,7 @@ if (isset($_GET["Ville"])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.min.css"
     integrity="sha512-wCrId7bUEl7j1H60Jcn4imkkiIYRcoyq5Gcu3bpKAZYBJXHVMmkL4rhtyhelxSFuPMIoQjiVsanrHxcs2euu/w=="
@@ -46,7 +47,7 @@ if (isset($_GET["Ville"])) {
   <style>
   #map {
     border-radius: 20px;
-    height: 60vh;
+    height: 100vh;
     position: sticky;
     top: 100px;
     transition: 0.5s;
@@ -67,32 +68,8 @@ if (isset($_GET["Ville"])) {
 
   .selectize-control.single .selectize-input.input-active,
   .selectize-input {
-    width: 400px;
-  }
-
-  #select {
-    width: 210px !important;
-    height: 35px;
-    border: 1px solid #ddd;
-    padding-left: 10px;
-  }
-
-  .selectize-control.single .selectize-input.input-active,
-  .selectize-input {
-    width: 210px;
-    height: 35px;
-    overflow-y: hidden;
-  }
-
-  .icon {
-    width: 15px;
-  }
-
-  #select {
-    width: 210px !important;
-    height: 35px;
-    border: 1px solid #ddd;
-    padding-left: 10px;
+    width: 350px;
+    padding: 10px 20px;
   }
 
   @media screen and (max-width:769px) {
@@ -125,17 +102,16 @@ if (isset($_GET["Ville"])) {
     }
   }
   </style>
-  </style>
 </head>
 
 <body>
 
-  <nav class="navbar bg-body-tertiary " style="width: 100%;">
+  <nav class="navbar bg-body-tertiary mb-3" style="width: 100%;">
 
     <div class="d-flex justify-content-around w-100 form-content">
       <form action="index.php?Ville=<?= $_GET['Ville'] ?>" method="post" class="form d-flex  " role="search">
         <div class="d-flex select-content align-items-end ">
-          <div class="">
+          <div class="me-2">
             Specialite:
             <select class="select" id="select" name="Specialite">
               <?php foreach ($Specialites as $Specialite) {
@@ -192,8 +168,8 @@ if (isset($_GET["Ville"])) {
 
   <div class="container  container1">
     <div>
-      <h1 class="fw-semibold"><span class="header">Les restos</span> <span
-          class="text-danger "><?= $_GET["Ville"] ?></span></h1>
+      <h1 class="fw-semibold">Les restos <span class="header"><?= $_GET["Ville"] ?></span>
+      </h1>
       <p class="paragraphe">Envie de nouveaux goûts ? Découvre les restaurants à proximité.</p>
     </div>
     <?php if (!empty($restaurants)) { ?>
@@ -206,7 +182,7 @@ if (isset($_GET["Ville"])) {
             $place = $restaurant['Nom_Res'];
           ?>
         <!-- card start -->
-        <div class="card mb-3 " style="max-width: 540px;">
+        <div class="card mb-3">
           <div class="row g-0">
             <div class="col-md-4">
               <img src="<?= $image ?>" class="img-fluid rounded-start" alt="<?= $restaurant['Nom_Res'] ?>">
@@ -220,7 +196,6 @@ if (isset($_GET["Ville"])) {
                 <p class=" card-text"><?= $restaurant['Cartier'] ?></p>
                 <p class="header"><?= $restaurant['Ville'] ?></p>
                 <a href="./details.php?id=<?= $restaurant['IdRes'] ?>" class="stretched-link"></a>
-
               </div>
             </div>
           </div>
@@ -232,22 +207,20 @@ if (isset($_GET["Ville"])) {
 
 
       </div>
-      <div id="map" class=" col-md-6 ">
+      <div id="map" class=" col-md-6">
         <a href="https://www.maptiler.com"><img src="https://api.maptiler.com/resources/logo.svg"
             alt="MapTiler logo" /></a>
       </div>
 
     </div>
     <?php } else { ?>
-    <div class="row h-100  content">
+    <div>
       <!-- restaurant -->
       <div class="">
         <div class="alert alert-danger" role="alert">
           <strong>Error</strong> aucun restaurant
         </div>
       </div>
-
-
     </div>
     <?php } ?>
   </div>
@@ -290,7 +263,7 @@ if (isset($_GET["Ville"])) {
     <?php echo $res['C_Longitude']; ?>
   ]).addTo(map);
   marker<?php echo $res['IdRes']; ?>.bindPopup(
-    '<?php echo "<div class=" . "info" . "><h3>" . $res['Nom_Res'] . "</h3><p>" . $res['Ville'] . "</p><p class=\"text-danger\">" . $res['Specialites'] . "</p></div>"; ?>'
+    '<?php echo "<div class=" . "info" . "><h3 class=" . "fs-5"  . ">" . $res['Nom_Res'] . "</h3><p>" . $res['Ville'] . "</p><p class=\"text-danger\">" . $res['Specialites'] . "</p></div>"; ?>'
   );
   <?php endforeach; ?>
 
