@@ -7,7 +7,7 @@ if (!isset($_SESSION["Data"])) {
 if (isset($_GET['id'])) {
   // offre id :
   $idOffre = (int)$_GET['id'];
-  $sql = $db->prepare("SELECT * FROM offres WHERE idOffre = ?");
+  $sql = $db->prepare("SELECT * FROM offres O INNER JOIN restaurant R ON O.idRes=R.IdRes WHERE idOffre = ?");
   $sql->execute([$idOffre]);
   $offre = $sql->fetch();
   if (isset($_POST['valide'])) {
@@ -68,9 +68,10 @@ if (isset($_GET['id'])) {
       <div class="card text-center">
         <img src="./images/Offres/<?= $offre['image'] ?>" class="card-img-top" alt="offre image">
         <div class="card-body">
-          <h5 class="card-title">N° : <?= $offre['idOffre'] ?></h5>
-          <p class="card-text"><?= $offre['Des'] ?></p>
-          <p class="card-text">Statue : <?= $offre['statue'] ?></p>
+          <h5 class="card-title"><span class="header">N° :</span> <?= $offre['idOffre'] ?></h5>
+          <p class="card-text"><span class="header">Description :</span> <?= $offre['Des'] ?></p>
+          <p class="card-text"><span class="header">Statue :</span> <?= $offre['statue'] ?></p>
+          <p class="card-text"><span class="header">Restaurant :</span> <?= $offre['Nom_Res'] ?></p>
           <!-- form validation -->
           <!-- Button trigger modal -->
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -91,7 +92,6 @@ if (isset($_GET['id'])) {
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                  <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
                   <form action="" method="post">
                     <input type="submit" name="valide" class="btn btn-primary" value="valider">
                     <input type="submit" name="supprimer" class="btn btn-danger" value="supprimer">

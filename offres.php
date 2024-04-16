@@ -4,7 +4,7 @@ session_start();
 if (!isset($_SESSION["Data"])) {
   header("location:login.php");
 }
-$sql = $db->prepare("SELECT * FROM offres WHERE Activation=0");
+$sql = $db->prepare("SELECT * FROM offres O INNER JOIN restaurant R ON O.idRes=R.IdRes WHERE Activation=0");
 $sql->execute([]);
 $offres = $sql->fetchAll();
 ?>
@@ -49,9 +49,10 @@ $offres = $sql->fetchAll();
         <div class="card" style="width: 18rem;">
           <img src="./images/Offres/<?= $offre['image'] ?>" class="card-img-top" alt="offre image">
           <div class="card-body">
-            <h5 class="card-title">N° : <?= $offre['idOffre'] ?></h5>
-            <p class="card-text">Description : <?= $offre['Des'] ?></p>
-            <p class="card-text">Statue : <?= $offre['statue'] ?></p>
+            <h5 class="card-title"><span class="header">N° :</span> <?= $offre['idOffre'] ?></h5>
+            <p class="card-text"><span class="header">Description :</span> <?= $offre['Des'] ?></p>
+            <p class="card-text"><span class="header">Statue :</span> <?= $offre['statue'] ?></p>
+            <p class="card-text"><span class="header">Restaurant :</span> : <?= $offre['Nom_Res'] ?></p>
             <a href="offreDetails.php?id=<?= $offre['idOffre'] ?>" class="stretched-link"></a>
           </div>
         </div>
