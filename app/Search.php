@@ -16,6 +16,30 @@ $restaurants = $sql->fetchAll();
 </head>
 
 <body>
+  <nav class="navbar navbar-expand-lg bg-danger ">
+    <div class="container justify-content-between">
+      <a class="navbar-brand" href="#">
+        <img src="../images/eatLogo.png" alt="" width="100px">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse " id="navbarNav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link text-light" aria-current="page" href="Search.php">Accueil</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light" href="AjouterOffres.php">Ajouter un Offres</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light" href="#">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
   <div class="container my-4">
     <div class="row g-2">
       <?php

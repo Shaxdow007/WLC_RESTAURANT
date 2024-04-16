@@ -84,6 +84,7 @@ body {
 }
 
 .form-content input[type="text"],
+.form-content textarea,
 .form-content input[type="password"],
 .form-content input[type="email"],
 .form-content input[type="number"],

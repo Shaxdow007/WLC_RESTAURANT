@@ -14,6 +14,10 @@ if (isset($_GET['id'])) {
     $sql = $db->prepare("UPDATE offres SET Activation=1 WHERE idOffre=?");
     $sql->execute([$idOffre]);
     $message = 'offre valide';
+  } else if (isset($_POST['supprimer'])) {
+    $sql = $db->prepare("DELETE FROM offres WHERE idOffre = ?");
+    $sql->execute([$idOffre]);
+    header('location:offres.php');
   }
 } else {
   header('location:offres.php');
@@ -46,7 +50,7 @@ if (isset($_GET['id'])) {
             <a class="nav-link text-light" href="index.php">Ajouter restaurants</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" href="offres.php">Ajouter offres</a>
+            <a class="nav-link text-light" href="offres.php">Liste des offres</a>
           </li>
         </ul>
       </div>
@@ -62,7 +66,7 @@ if (isset($_GET['id'])) {
     } ?>
     <div>
       <div class="card text-center">
-        <img src="<?= $offre['image'] ?>" class="card-img-top" alt="offre image">
+        <img src="./images/Offres/<?= $offre['image'] ?>" class="card-img-top" alt="offre image">
         <div class="card-body">
           <h5 class="card-title">N° : <?= $offre['idOffre'] ?></h5>
           <p class="card-text"><?= $offre['Des'] ?></p>
@@ -90,16 +94,12 @@ if (isset($_GET['id'])) {
                   <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
                   <form action="" method="post">
                     <input type="submit" name="valide" class="btn btn-primary" value="valider">
+                    <input type="submit" name="supprimer" class="btn btn-danger" value="supprimer">
                   </form>
                 </div>
               </div>
             </div>
           </div>
-          <!-- <div>
-            <form action="" method="post">
-              <input type="submit" name="valide" class="btn btn-primary" value="valider">
-            </form>
-          </div> -->
         </div>
       </div>
     </div>

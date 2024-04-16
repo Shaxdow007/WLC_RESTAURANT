@@ -34,7 +34,7 @@ $offres = $sql->fetchAll();
             <a class="nav-link text-light" href="index.php">Ajouter restaurants</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" href="offres.php">Ajouter offres</a>
+            <a class="nav-link text-light" href="offres.php">Liste des offres</a>
           </li>
         </ul>
       </div>
@@ -47,7 +47,7 @@ $offres = $sql->fetchAll();
       ?>
       <div class="col">
         <div class="card" style="width: 18rem;">
-          <img src="<?= $offre['image'] ?>" class="card-img-top" alt="offre image">
+          <img src="./images/Offres/<?= $offre['image'] ?>" class="card-img-top" alt="offre image">
           <div class="card-body">
             <h5 class="card-title">N° : <?= $offre['idOffre'] ?></h5>
             <p class="card-text">Description : <?= $offre['Des'] ?></p>

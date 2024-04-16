@@ -32,7 +32,7 @@ if (!isset($_SESSION["Data"])) {
             <a class="nav-link text-light" href="index.php">Ajouter restaurants</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" href="offres.php">Ajouter offres</a>
+            <a class="nav-link text-light" href="offres.php">Liste des offres</a>
           </li>
         </ul>
       </div>
