@@ -7,7 +7,7 @@ if (isset($_GET["Ville"])) {
   $sql->execute([$Ville]);
   $restaurants = $sql->fetchAll();
   // Touts lesVilles
-  $sql = $db->prepare("SELECT DISTINCT Ville FROM restaurant  ");
+  $sql = $db->prepare("SELECT DISTINCT Ville FROM restaurant");
   $sql->execute([]);
   $Villes = $sql->fetchAll();
   // Touts Specialites de ville

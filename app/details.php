@@ -75,7 +75,6 @@ $image = "data:" . $restaurant["Type_Photo"] . ";base64," . base64_encode($resta
   ], 16); //starting position
   var marker = L.marker([<?php echo $restaurant['C_Latitude']; ?>, <?php echo $restaurant['C_Longitude']; ?>])
     .addTo(map);
-
   var marker<?php echo $restaurant['IdRes']; ?> = L.marker([<?php echo $restaurant['C_Latitude']; ?>,
     <?php echo $restaurant['C_Longitude']; ?>
   ]).addTo(map);
