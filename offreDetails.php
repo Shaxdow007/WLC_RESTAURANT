@@ -54,18 +54,19 @@ if (isset($_GET['id'])) {
   </nav>
   <div class="container my-5">
     <?php if (isset($message)) {
-          ?>
+    ?>
     <div class="alert alert-info" role="alert">
       <?= $message ?>
     </div>
     <?php
-          } ?>
+    } ?>
     <div>
       <div class="card text-center">
         <img src="<?= $offre['image'] ?>" class="card-img-top" alt="offre image">
         <div class="card-body">
           <h5 class="card-title">N° : <?= $offre['idOffre'] ?></h5>
           <p class="card-text"><?= $offre['Des'] ?></p>
+          <p class="card-text">Statue : <?= $offre['statue'] ?></p>
           <!-- form validation -->
           <!-- Button trigger modal -->
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">

@@ -42,15 +42,16 @@ $offres = $sql->fetchAll();
   </nav>
   <!-- main content -->
   <div class="container my-5">
-    <div class="row">
+    <div class="row g-2">
       <?php foreach ($offres as $offre) {
       ?>
-      <div class="col-sm-3">
+      <div class="col">
         <div class="card" style="width: 18rem;">
           <img src="<?= $offre['image'] ?>" class="card-img-top" alt="offre image">
           <div class="card-body">
             <h5 class="card-title">N° : <?= $offre['idOffre'] ?></h5>
-            <p class="card-text"><?= $offre['Des'] ?></p>
+            <p class="card-text">Description : <?= $offre['Des'] ?></p>
+            <p class="card-text">Statue : <?= $offre['statue'] ?></p>
             <a href="offreDetails.php?id=<?= $offre['idOffre'] ?>" class="stretched-link"></a>
           </div>
         </div>
