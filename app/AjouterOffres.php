@@ -6,11 +6,10 @@ $restaurants = $sql->fetchAll();
 if (isset($_POST['done'])) {
   extract($_POST);
   $fileimg = $_FILES["Photo"];
-  $nameimg = $fileimg["name"];
-  $typeimg = $fileimg["type"];
+  $nameimg = uniqid() . $fileimg["name"];
   $pathtmpimgsrc = $fileimg["tmp_name"];
-  $pathimgdest = "../images/Offres/$nameimg";
-  // var_dump($_POST);
+  $pathimgdest = "../images/Offres/" . $nameimg;
+  // var_dump($nameimg);
   $sql = $db->prepare("INSERT INTO offres (IdRes,Des,statue,image)Values(?,?,?,?)");
   $sql->execute([$Res, $Des, $Statue, $nameimg]);
   move_uploaded_file($pathtmpimgsrc, $pathimgdest);
@@ -22,7 +21,7 @@ if (isset($_POST['done'])) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Eat | ajouter un offres</title>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.min.css"
@@ -66,7 +65,6 @@ if (isset($_POST['done'])) {
           Bonjour dans votre espace , <br>
           Votre demander va valider apré ws quelque heurs
         </p>
-
       </div>
       <div class="col-sm-12 col-md-6 form-body d-flex justify-content-center align-items-center m-auto "
         style="height: 100vh;">

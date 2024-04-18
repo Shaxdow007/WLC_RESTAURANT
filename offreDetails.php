@@ -10,14 +10,17 @@ if (isset($_GET['id'])) {
   $sql = $db->prepare("SELECT * FROM offres O INNER JOIN restaurant R ON O.idRes=R.IdRes WHERE idOffre = ?");
   $sql->execute([$idOffre]);
   $offre = $sql->fetch();
+  if (empty($offre)) {
+    header('location:offres.php');
+  }
   if (isset($_POST['valide'])) {
     $sql = $db->prepare("UPDATE offres SET Activation=1 WHERE idOffre=?");
     $sql->execute([$idOffre]);
     $message = 'offre valide';
-  } else if (isset($_POST['supprimer'])) {
-    $sql = $db->prepare("DELETE FROM offres WHERE idOffre = ?");
+  } else if (isset($_POST['novalider'])) {
+    $sql = $db->prepare("UPDATE offres SET Activation=0 WHERE idOffre=?");
     $sql->execute([$idOffre]);
-    header('location:offres.php');
+    $message = 'offre no valide';
   }
 } else {
   header('location:offres.php');
@@ -29,7 +32,7 @@ if (isset($_GET['id'])) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Eat | offre detail</title>
+  <title>Eat | offre details</title>
   <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="./css/bootstrap.min.css">
 
@@ -56,7 +59,11 @@ if (isset($_GET['id'])) {
       </div>
     </div>
   </nav>
+
   <div class="container my-5">
+    <div class="my-4">
+      <a href="./offres.php" class="btn btn-primary">Go back</a>
+    </div>
     <?php if (isset($message)) {
     ?>
     <div class="alert alert-info" role="alert">
@@ -94,7 +101,7 @@ if (isset($_GET['id'])) {
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                   <form action="" method="post">
                     <input type="submit" name="valide" class="btn btn-primary" value="valider">
-                    <input type="submit" name="supprimer" class="btn btn-danger" value="supprimer">
+                    <input type="submit" name="novalider" class="btn btn-danger" value="no valider">
                   </form>
                 </div>
               </div>

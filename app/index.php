@@ -105,9 +105,7 @@ if (isset($_GET["Ville"])) {
 </head>
 
 <body>
-
   <nav class="navbar bg-body-tertiary mb-3" style="width: 100%;">
-
     <div class="d-flex justify-content-around w-100 form-content">
       <form action="index.php?Ville=<?= $_GET['Ville'] ?>" method="post" class="form d-flex  " role="search">
         <div class="d-flex select-content align-items-end ">
