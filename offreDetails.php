@@ -59,7 +59,6 @@ if (isset($_GET['id'])) {
       </div>
     </div>
   </nav>
-
   <div class="container my-5">
     <div class="my-4">
       <a href="./offres.php" class="btn btn-primary">Go back</a>

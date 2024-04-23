@@ -180,7 +180,7 @@ if (isset($_GET["Ville"])) {
             $place = $restaurant['Nom_Res'];
           ?>
         <!-- card start -->
-        <div class="card mb-3">
+        <div class="card mb-3" id="<?= $restaurant['IdRes'] ?>">
           <div class="row g-0">
             <div class="col-md-4">
               <img src="<?= $image ?>" class="img-fluid rounded-start" alt="<?= $restaurant['Nom_Res'] ?>">
@@ -260,6 +260,23 @@ if (isset($_GET["Ville"])) {
   var marker<?php echo $res['IdRes']; ?> = L.marker([<?php echo $res['C_Latitude']; ?>,
     <?php echo $res['C_Longitude']; ?>
   ]).addTo(map);
+  // get the item :
+  var targetItem<?php echo $res['IdRes']; ?> = document.getElementById("<?= $res['IdRes'] ?>");
+  var targetItemId<?php echo $res['IdRes']; ?> = targetItem<?php echo $res['IdRes']; ?>.id;
+
+  console.log(targetItem<?php echo $res['IdRes']; ?>);
+  console.log(targetItemId<?php echo $res['IdRes']; ?>);
+
+  targetItem<?php echo $res['IdRes']; ?>.addEventListener('mouseenter', function() {
+    if (targetItemId<?php echo $res['IdRes']; ?> === '<?= $res['IdRes'] ?>') {
+      console.log(targetItemId<?php echo $res['IdRes']; ?>);
+      console.log(targetItem<?php echo $res['IdRes']; ?>);
+      marker<?php echo $res['IdRes']; ?>.bindPopup(
+        '<?php echo "<div class=" . "info" . "><h3 class=" . "fs-5"  . ">" . $res['Nom_Res'] . "</h3><p>" . $res['Ville'] . "</p><p class=\"text-danger\">" . $res['Specialites'] . "</p></div>"; ?>'
+      ).openPopup();
+    }
+  });
+
   marker<?php echo $res['IdRes']; ?>.bindPopup(
     '<?php echo "<div class=" . "info" . "><h3 class=" . "fs-5"  . ">" . $res['Nom_Res'] . "</h3><p>" . $res['Ville'] . "</p><p class=\"text-danger\">" . $res['Specialites'] . "</p></div>"; ?>'
   );
